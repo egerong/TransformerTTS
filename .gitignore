@@ -8,6 +8,7 @@ private
 logs
 *.pt
 transformer_tts_data.ljspeech
+slurm.*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
