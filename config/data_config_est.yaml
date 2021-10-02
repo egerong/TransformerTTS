@@ -33,7 +33,7 @@ vad_max_silence_length: 12
 vad_sample_rate: 16000
 
 # TOKENIZER
-phoneme_language: null        # set null to skip phonemization for unsupported languages (not recommended)
+phoneme_language: 'et'        # set null to skip phonemization for unsupported languages (not recommended)
 with_stress: False                # use stress symbols in phonemization
 model_breathing: False           # add a token for the initial breathing
-alphabet: ' abcdefghijklmnopqrstuvwxyzõäöüšž,!?."'
+alphabet: null #' abcdefghijklmnopqrstuvwxyzõäöüšž,!?."'
