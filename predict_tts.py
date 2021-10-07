@@ -21,7 +21,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     if args.file is not None:
-        with open(args.file, 'r') as file:
+        with open(args.file, 'r', encoding='utf-8') as file:
             text = file.readlines()
         fname = Path(args.file).stem
     elif args.text is not None:
@@ -48,7 +48,7 @@ if __name__ == '__main__':
         model, conf = tts_ljspeech()
         file_name = f'{fname}_ljspeech_v1'
     
-    outdir = outdir / 'outputs' / f'{fname}'
+    outdir = outdir  / f'{fname}'
     outdir.mkdir(exist_ok=True, parents=True)
     audio = Audio(conf)
     print(f'Output wav under {outdir}')

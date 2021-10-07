@@ -7,7 +7,7 @@ samples
 private
 logs
 *.pt
-transformer_tts_data.ljspeech
+transformer_tts_data*
 slurm.*
 
 # Byte-compiled / optimized / DLL files

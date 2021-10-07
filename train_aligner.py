@@ -156,7 +156,7 @@ for _ in t:
     summary_manager.display_loss(output, tag='Train')
     summary_manager.display_scalar(tag='Meta/learning_rate', scalar_value=model.optimizer.lr)
     summary_manager.display_scalar(tag='Meta/reduction_factor', scalar_value=model.r)
-    summary_manager.display_scalar(scalar_value=t.avg_time, tag='Meta/iter_time')
+    #summary_manager.display_scalar(scalar_value=t.avg_time, tag='Meta/iter_time')
     summary_manager.display_scalar(scalar_value=tf.shape(sample_name)[0], tag='Meta/batch_size')
     if model.step % config['train_images_plotting_frequency'] == 0:
         summary_manager.display_attention_heads(output, tag='TrainAttentionHeads')
