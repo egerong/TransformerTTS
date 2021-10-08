@@ -9,6 +9,7 @@ logs
 *.pt
 transformer_tts_data*
 slurm.*
+outputs/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
