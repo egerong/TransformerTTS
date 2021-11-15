@@ -142,7 +142,7 @@ print('\nTRAINING')
 losses = []
 texts = []
 for text_file in config_dict['text_prediction']:
-    with open(text_file, 'r') as file:
+    with open(text_file, 'r', encoding='utf-8') as file:
         text = file.readlines()
     texts.append(text)
 
@@ -172,7 +172,7 @@ for _ in t:
             t.display(f'{n_steps}-steps average loss: {sum(losses[-n_steps:]) / n_steps}', pos=pos + 2)
     
     summary_manager.display_loss(output, tag='Train')
-    summary_manager.display_scalar(scalar_value=t.avg_time, tag='Meta/iter_time')
+    #summary_manager.display_scalar(scalar_value=t.avg_time, tag='Meta/iter_time')
     summary_manager.display_scalar(scalar_value=tf.shape(fname)[0], tag='Meta/batch_size')
     summary_manager.display_scalar(tag='Meta/learning_rate', scalar_value=model.optimizer.lr)
     if model.step % config_dict['train_images_plotting_frequency'] == 0:
