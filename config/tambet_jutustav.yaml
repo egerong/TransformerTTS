@@ -1,0 +1,10 @@
+# PATHS: change accordingly
+wav_directory: '../Korpused/tambet/jutustav22/wav' # path to directory cointaining the wavs
+metadata_path: '../Korpused/tambet/jutustav22/korp.sisukord'  # name of metadata file under wav_directory
+log_directory: 'logs/tambet_jutustav'   # weights and logs are stored here
+train_data_directory: 'transformer_tts_data/tambet_jutustav'   # training data is stored here
+data_config: 'config/data_config.yaml'
+aligner_config: 'config/aligner_config.yaml'
+tts_config: 'config/tts_config.yaml'
+
+data_name: ljspeech # raw data naming for default data reader (select function from data/metadata_readers.py)
