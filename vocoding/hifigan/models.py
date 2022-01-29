@@ -39,9 +39,9 @@ class ResBlock1(torch.nn.Module):
 
     def forward(self, x):
         for c1, c2 in zip(self.convs1, self.convs2):
-            xt = F.leaky_relu(x, LRELU_SLOPE)
+            xt = F.leaky_relu(x, 0.1)
             xt = c1(xt)
-            xt = F.leaky_relu(xt, LRELU_SLOPE)
+            xt = F.leaky_relu(xt, 0.1)
             xt = c2(xt)
             x = xt + x
         return x
@@ -67,7 +67,7 @@ class ResBlock2(torch.nn.Module):
 
     def forward(self, x):
         for c in self.convs:
-            xt = F.leaky_relu(x, LRELU_SLOPE)
+            xt = F.leaky_relu(x, 0.1)
             xt = c(xt)
             x = xt + x
         return x
@@ -104,15 +104,15 @@ class Generator(torch.nn.Module):
 
     def forward(self, x):
         x = self.conv_pre(x)
-        for i in range(self.num_upsamples):
-            x = F.leaky_relu(x, LRELU_SLOPE)
-            x = self.ups[i](x)
+        for i, ups in enumerate(self.ups):
+            x = F.leaky_relu(x, 0.1)
+            x = ups(x)
             xs = None
-            for j in range(self.num_kernels):
+            for j, resblock in enumerate(self.resblocks, i*self.num_kernels):
                 if xs is None:
-                    xs = self.resblocks[i*self.num_kernels+j](x)
+                    xs = resblock(x)
                 else:
-                    xs += self.resblocks[i*self.num_kernels+j](x)
+                    xs += resblock(x)
             x = xs / self.num_kernels
         x = F.leaky_relu(x)
         x = self.conv_post(x)
@@ -157,7 +157,7 @@ class DiscriminatorP(torch.nn.Module):
 
         for l in self.convs:
             x = l(x)
-            x = F.leaky_relu(x, LRELU_SLOPE)
+            x = F.leaky_relu(x, 0.1)
             fmap.append(x)
         x = self.conv_post(x)
         fmap.append(x)
@@ -212,7 +212,7 @@ class DiscriminatorS(torch.nn.Module):
         fmap = []
         for l in self.convs:
             x = l(x)
-            x = F.leaky_relu(x, LRELU_SLOPE)
+            x = F.leaky_relu(x, 0.1)
             fmap.append(x)
         x = self.conv_post(x)
         fmap.append(x)
