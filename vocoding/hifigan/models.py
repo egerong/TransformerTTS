@@ -39,9 +39,9 @@ class ResBlock1(torch.nn.Module):
 
     def forward(self, x):
         for c1, c2 in zip(self.convs1, self.convs2):
-            xt = F.leaky_relu(x, LRELU_SLOPE)
+            xt = F.leaky_relu(x, 0.1)
             xt = c1(xt)
-            xt = F.leaky_relu(xt, LRELU_SLOPE)
+            xt = F.leaky_relu(xt, 0.1)
             xt = c2(xt)
             x = xt + x
         return x
@@ -67,7 +67,7 @@ class ResBlock2(torch.nn.Module):
 
     def forward(self, x):
         for c in self.convs:
-            xt = F.leaky_relu(x, LRELU_SLOPE)
+            xt = F.leaky_relu(x, 0.1)
             xt = c(xt)
             x = xt + x
         return x
@@ -86,7 +86,7 @@ class Generator(torch.nn.Module):
         self.conv_pre = weight_norm(Conv1d(80, h.upsample_initial_channel, 7, 1, padding=3))
         resblock = ResBlock1 if h.resblock == '1' else ResBlock2
 
-        self.ups = nn.ModuleList()
+        self.ups: nn.ModuleList[ConvTranspose1d] = nn.ModuleList()
         for i, (u, k) in enumerate(zip(h.upsample_rates, h.upsample_kernel_sizes)):
             self.ups.append(weight_norm(
                 ConvTranspose1d(h.upsample_initial_channel//(2**i), h.upsample_initial_channel//(2**(i+1)),
@@ -103,16 +103,21 @@ class Generator(torch.nn.Module):
         self.conv_post.apply(init_weights)
 
     def forward(self, x):
+        print(x.shape)
         x = self.conv_pre(x)
-        for i in range(self.num_upsamples):
-            x = F.leaky_relu(x, LRELU_SLOPE)
-            x = self.ups[i](x)
-            xs = None
-            for j in range(self.num_kernels):
-                if xs is None:
-                    xs = self.resblocks[i*self.num_kernels+j](x)
-                else:
-                    xs += self.resblocks[i*self.num_kernels+j](x)
+        print(x.shape)
+        for i, ups in enumerate(self.ups):
+            x = F.leaky_relu(x, 0.1)
+            x = ups(x)
+            xs = torch.empty(1)
+            xs_first = True
+            for j, res in enumerate(self.resblocks):
+                if j in list(range(i*self.num_kernels, (i+1)*self.num_kernels)):
+                    if xs_first:
+                        xs = res(x)
+                        xs_first = False
+                    else:
+                        xs += res(x)
             x = xs / self.num_kernels
         x = F.leaky_relu(x)
         x = self.conv_post(x)
@@ -157,7 +162,7 @@ class DiscriminatorP(torch.nn.Module):
 
         for l in self.convs:
             x = l(x)
-            x = F.leaky_relu(x, LRELU_SLOPE)
+            x = l(x)
             fmap.append(x)
         x = self.conv_post(x)
         fmap.append(x)
@@ -212,7 +217,7 @@ class DiscriminatorS(torch.nn.Module):
         fmap = []
         for l in self.convs:
             x = l(x)
-            x = F.leaky_relu(x, LRELU_SLOPE)
+            x = l(x)
             fmap.append(x)
         x = self.conv_post(x)
         fmap.append(x)

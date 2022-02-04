@@ -414,7 +414,11 @@ class ForwardTransformer(tf.keras.models.Model):
         target_pitch = tf.expand_dims(target_pitch, -1)
         mel_len = int(tf.shape(target_sequence)[1])
         with tf.GradientTape() as tape:
-            model_out = self.__call__(input_sequence, target_durations, target_pitch=target_pitch, training=True)
+            model_out = self.__call__(
+                input_sequence, 
+                training=True,
+                target_durations=target_durations,
+                target_pitch=target_pitch)
             loss, loss_vals = weighted_sum_losses((target_sequence,
                                                    target_durations,
                                                    target_pitch),
@@ -441,7 +445,12 @@ class ForwardTransformer(tf.keras.models.Model):
         target_durations = tf.expand_dims(target_durations, -1)
         target_pitch = tf.expand_dims(target_pitch, -1)
         mel_len = int(tf.shape(target_sequence)[1])
-        model_out = self.__call__(input_sequence, target_durations, target_pitch=target_pitch, training=False)
+        model_out = self.__call__(
+            input_sequence,
+            training=False,
+            target_durations=target_durations,
+            target_pitch=target_pitch
+        )
         loss, loss_vals = weighted_sum_losses((target_sequence,
                                                target_durations,
                                                target_pitch),
@@ -463,8 +472,15 @@ class ForwardTransformer(tf.keras.models.Model):
     def step(self):
         return int(self.optimizer.iterations)
     
-    def call(self, x, target_durations, target_pitch, training, durations_scalar=1., max_durations_mask=None,
-             min_durations_mask=None):
+    def call(self,
+        x,
+        training,
+        target_durations=None,
+        target_pitch=None,
+        durations_scalar=1.,
+        max_durations_mask=None,
+        min_durations_mask=None
+    ):
         encoder_padding_mask = create_encoder_padding_mask(x)
         x = self.encoder_prenet(x)
         x, encoder_attention = self.encoder(x, training=training, padding_mask=encoder_padding_mask)
