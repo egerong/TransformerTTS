@@ -9,7 +9,7 @@ mel_end_value: -.5
 max_mel_len: 1_200
 min_mel_len: 80
 bucket_boundaries: [200, 300, 400, 500, 600, 700, 800, 900, 1000, 1200] # mel bucketing
-bucket_batch_sizes: [64, 42, 32, 25, 21, 18, 16, 14, 12, 6, 1]
+bucket_batch_sizes: [192, 126, 96, 75, 63, 54, 48, 42, 36, 18, 3]
 val_bucket_batch_size: [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1]
 
 # AUDIO SETTINGS
@@ -33,13 +33,7 @@ vad_max_silence_length: 12
 vad_sample_rate: 16000
 
 # TOKENIZER
-<<<<<<< HEAD
-phoneme_language: 'et'
-with_stress: True                  # use stress symbols in phonemization
-model_breathing: false           # add a token for the initial breathing
-=======
-phoneme_language: 'en-us'        # set null to skip phonemization for unsupported languages (not recommended)
-with_stress: True                # use stress symbols in phonemization
-model_breathing: false           # add a token for the initial breathing
-alphabet: null                   # if phoneme_language = null, set for tokenizer reference over defaults in symbols.py
->>>>>>> 4a624d1054c4da34e3544b87480872e3243845d6
+phoneme_language: null        # set null to skip phonemization for unsupported languages (not recommended)
+with_stress: False                # use stress symbols in phonemization
+model_breathing: False           # add a token for the initial breathing
+alphabet: ' abcdefghijklmnopqrstuvwxyzõäöüšž,!?."'

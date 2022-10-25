@@ -30,6 +30,7 @@ class Aligner(tf.keras.models.Model):
                  encoder_feed_forward_dimension: int = None,
                  decoder_feed_forward_dimension: int = None,
                  max_r: int = 10,
+                 alphabet: str = None,
                  debug=False,
                  **kwargs):
         super(Aligner, self).__init__(**kwargs)
@@ -44,7 +45,8 @@ class Aligner(tf.keras.models.Model):
         self.text_pipeline = TextToTokens.default(phoneme_language,
                                                   add_start_end=True,
                                                   with_stress=with_stress,
-                                                  model_breathing=model_breathing)
+                                                  model_breathing=model_breathing,
+                                                  alphabet=alphabet)
         self.encoder_prenet = tf.keras.layers.Embedding(self.text_pipeline.tokenizer.vocab_size,
                                                         encoder_prenet_dimension,
                                                         name='Embedding')
@@ -302,7 +304,8 @@ class Aligner(tf.keras.models.Model):
                    phoneme_language=config['phoneme_language'],
                    with_stress=config['with_stress'],
                    debug=config['debug'],
-                   model_breathing=config['model_breathing'])
+                   model_breathing=config['model_breathing'],
+                   alphabet=config['alphabet'])
 
 
 class ForwardTransformer(tf.keras.models.Model):
@@ -331,13 +334,15 @@ class ForwardTransformer(tf.keras.models.Model):
                  decoder_attention_conv_kernel: int = None,
                  encoder_feed_forward_dimension: int = None,
                  decoder_feed_forward_dimension: int = None,
+                 alphabet: str = None,
                  debug=False,
                  **kwargs):
         super(ForwardTransformer, self).__init__(**kwargs)
         self.text_pipeline = TextToTokens.default(phoneme_language,
                                                   add_start_end=False,
                                                   with_stress=with_stress,
-                                                  model_breathing=model_breathing)
+                                                  model_breathing=model_breathing,
+                                                  alphabet=alphabet)
         self.mel_channels = mel_channels
         self.encoder_prenet = tf.keras.layers.Embedding(self.text_pipeline.tokenizer.vocab_size,
                                                         encoder_model_dimension,
@@ -589,4 +594,5 @@ class ForwardTransformer(tf.keras.models.Model):
             phoneme_language=config['phoneme_language'],
             with_stress=config['with_stress'],
             debug=config['debug'],
-            model_breathing=config['model_breathing'])
+            model_breathing=config['model_breathing'],
+            alphabet=config['alphabet'])

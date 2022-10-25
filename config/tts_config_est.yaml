@@ -39,4 +39,4 @@ keep_checkpoint_every_n_hours: 12
 n_steps_avg_losses: [100, 500, 1_000, 5_000]  # command line display of average loss values for the last n steps
 prediction_start_step: 4_000
 text_prediction:
-  - test_sentences.txt
+  - test_sentences_est.txt
