@@ -9,7 +9,7 @@ mel_end_value: -.5
 max_mel_len: 1_200
 min_mel_len: 80
 bucket_boundaries: [200, 300, 400, 500, 600, 700, 800, 900, 1000, 1200] # mel bucketing
-bucket_batch_sizes: [192, 126, 96, 75, 63, 54, 48, 42, 36, 18, 3]
+bucket_batch_sizes: [64, 42, 32, 25, 21, 18, 16, 14, 12, 6, 1]
 val_bucket_batch_size: [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1]
 
 # AUDIO SETTINGS
@@ -36,4 +36,4 @@ vad_sample_rate: 16000
 phoneme_language: null        # set null to skip phonemization for unsupported languages (not recommended)
 with_stress: False                # use stress symbols in phonemization
 model_breathing: False           # add a token for the initial breathing
-alphabet: ' abcdefghijklmnopqrstuvwxyzõäöüšž,!?."'
+alphabet: ' abcdefghijklmnopqrstuvwxyzõäöüšž,!?."æĸ'
