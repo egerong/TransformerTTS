@@ -69,7 +69,7 @@ class Phonemizer:
         text = self._preprocess(text)
 
         if not language:
-            phonemes = text
+            phonemes = text.lower()
         else:
             phonemes = phonemize(text,
                                  language=language,
