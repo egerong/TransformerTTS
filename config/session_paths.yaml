@@ -1,10 +1,10 @@
 # PATHS: change accordingly
-wav_directory: '../Korpused/peeter_jutustav_22' # path to directory cointaining the wavs
-metadata_path: '../Korpused/peeter_jutustav_22/korp.sisukord'  # name of metadata file under wav_directory
-log_directory: 'logs/peeter_jutustav_22_voc'   # weights and logs are stored here
-train_data_directory: 'transformer_tts_data/peeter_jutustav_22'   # training data is stored here
-data_config: 'config/data_config.yaml'
+wav_directory: '/mnt/korpused/48kHz/kersti_yksiklaused/' # path to directory cointaining the wavs
+metadata_path: '/mnt/korpused/48kHz/kersti_yksiklaused/korp.sisukord'  # name of metadata file under wav_directory
+log_directory: 'logs/kersti'   # # weights and logs are stored here
+train_data_directory: 'transformer_tts_data/kersti'   # training data is stored here
+data_config: 'config/data_config_est.yaml'
 aligner_config: 'config/aligner_config.yaml'
-tts_config: 'config/tts_config.yaml'
+tts_config: 'config/tts_config_est.yaml'
 
 data_name: ljspeech # raw data naming for default data reader (select function from data/metadata_readers.py)
