@@ -3,6 +3,16 @@ import argparse
 
 import tensorflow as tf
 
+def tf_mem_limit(limit):
+    gpus = tf.config.experimental.list_physical_devices('GPU')
+    if gpus:
+        try:
+            for gpu in gpus:
+                tf.config.experimental.set_virtual_device_configuration(
+                    gpu,
+                    [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=limit)])
+        except RuntimeError as e:
+            print(e)
 
 def dynamic_memory_allocation():
     gpus = tf.config.experimental.list_physical_devices('GPU')

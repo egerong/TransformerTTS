@@ -7,6 +7,9 @@ from model.factory import tts_ljspeech, tts_custom
 from utils.config_manager import Config
 from data.audio import Audio
 from vocoding.predictors import HiFiGANPredictor, MelGANPredictor
+from utils.scripts_utils import tf_mem_limit
+
+tf_mem_limit(4096)
 
 if __name__ == '__main__':
     parser = ArgumentParser()
